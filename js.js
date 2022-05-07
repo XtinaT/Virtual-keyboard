@@ -1,1 +1,22 @@
+"use strict";
+let body = document.body;
+let wrapper = document.createElement('div');
+wrapper.classList.add('wrapper');
+body.append(wrapper);
+let textarea = document.createElement('textarea');
+textarea.classList.add('textarea');
+wrapper.append(textarea);
+let keyboard = document.createElement('div');
+keyboard.classList.add('keyboard');
+wrapper.append(keyboard);
+let keyboardKeys = document.createElement('div');
+keyboardKeys.classList.add('keyboard__keys');
+keyboard.append(keyboardKeys);
+let keyboardKey = document.createElement('div');
+keyboardKey.classList.add('keyboard__key');
+keyboardKey.classList.add('keyboard__key_bigger');
+keyboardKey.classList.add('keyboard__key_activatable');
+keyboardKey.classList.add('keyboard__key_dark');
+keyboardKey.innerHTML = 'a';
+keyboardKeys.append(keyboardKey);
 
