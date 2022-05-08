@@ -27,6 +27,7 @@ body {
 
 .keyboard {
   width:90%;
+  max-width: 800px;
   background-color: black;
   //box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
@@ -39,7 +40,7 @@ body {
 .keyboard__key {
   height:45px;
   width: 45px;
-  margin: 5px;
+  margin: 3px;
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.4);
   color:white;
@@ -47,7 +48,7 @@ body {
   align-items: center;
   justify-content: center;
   vertical-align: top;
-  font-size: 3rem;
+  font-size: 2rem;
   position:relative;
   user-select: none;
 }
@@ -62,10 +63,11 @@ body {
 
 .keyboard__key_dark {
   background-color: rgba(255, 255, 255, 0.2);
+  font-size: 1.8rem;
 }
 
 .keyboard__key_the-biggest {
-  width: 345px;
+  width: 400px;
 }
 
 .keyboard__key_activatable::after {
