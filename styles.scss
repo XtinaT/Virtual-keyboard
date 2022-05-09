@@ -53,9 +53,6 @@ body {
   user-select: none;
 }
 
-.keyboard__key:active {
-  background-color: #27b3ff;
-}
 
 .keyboard__key_bigger {
   width: 95px;
@@ -67,7 +64,7 @@ body {
 }
 
 .keyboard__key_the-biggest {
-  width: 400px;
+  width: 352px;
 }
 
 .keyboard__key_activatable::after {
@@ -83,4 +80,12 @@ body {
 
 .keyboard__key_active::after {
   background-color: lightgreen;
+}
+
+.keyboard__key:active {
+  background-color: #27b3ff;
+}
+
+.keyboard__key_pressed {
+  background-color: #27b3ff;
 }
