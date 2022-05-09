@@ -1,5 +1,9 @@
 "use strict";
-let lang = 'ru';
+let lang;
+if (localStorage['language']) {
+  lang = localStorage['language'];
+} else lang = 'eng';
+console.log(lang);
 let isShift = false;
 let keyboardLayout;
 let keyLayout;
@@ -39,7 +43,8 @@ let keysArrayRusShift = [
 let letters = [ "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", 
 "a", "s", "d", "f", "g", "h", "j", "k", "l",  "z", "x", "c", "v", "b", "n", "m", "ё", "й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ъ", "ф", "ы", "в", "а", "п", "р", "о", "л", "д",  "ж", "э", "я", "ч", "с", "м", "и", "т", "ь", "б", "ю" ];
 
-if (lang = 'eng') {
+function setLang() {
+ if (lang == 'eng') {
   if (isShift) {
     keyboardLayout = keysArrayEngShift;
     keyLayout = 'engShift';
@@ -55,12 +60,19 @@ if (isShift) {
     keyboardLayout = keysArrayRus;
     keyLayout = 'rus';
 }
+} 
+console.log(keyboardLayout, keyLayout);
 }
+setLang();
+
 
 function changeLang() {
-  lang=='eng'?lang=='ru':lang="eng";
+  lang=='eng'?lang='ru':lang="eng";
+  localStorage['language'] = `${lang}`;
   console.log(lang);
+  setLang();
   KeyboardObj.createKeysHTML(keyboardLayout, keyLayout);
+  console.log('new Lang:'+lang);
 }
 
 function insertBreak() {
@@ -80,7 +92,6 @@ class Letter {
 
 function createLetters() {
   for (let i=0; i<keysArrayEng.length;i++) {
-    console.log('here');
   let oneLetter = new Letter(keysArrayRus[i], keysArrayRusShift[i], keysArrayEng[i], keysArrayEngShift[i]); 
   lettersArray.push(oneLetter);
 }
@@ -108,6 +119,7 @@ const KeyboardObj = {
     let body = document.body; //this.elements.body
     let wrapper = document.createElement('div');
     let textarea = document.createElement('textarea');
+    let shortcut = document.createElement('div');
     let keyboard = document.createElement('div');// main
     let keyboardKeys = document.createElement('div');//keysContainer
 
@@ -115,9 +127,11 @@ const KeyboardObj = {
     textarea.classList.add('textarea');
     keyboard.classList.add('keyboard');
     keyboardKeys.classList.add('keyboard__keys');
+    shortcut.textContent = 'Press Ctrl+Alt or Lang to change language';
 
     body.append(wrapper);
     wrapper.append(textarea);
+    wrapper.append(shortcut);
     wrapper.append(keyboard);
     keyboard.append(keyboardKeys);
     this._createKeys();
@@ -125,7 +139,9 @@ const KeyboardObj = {
    },
 
    createKeysHTML(keyboardLayout, keyLayout) {
+    
     let keyboardKeys = document.querySelector('.keyboard__keys');
+    keyboardKeys.innerHTML = '';
     keyboardLayout.forEach(key=> {
       let keyboardKey = document.createElement('div');
       keyboardKey.classList.add('keyboard__key');
@@ -166,7 +182,12 @@ const KeyboardObj = {
             keyboardKey.classList.add('keyboard__key_dark');
             keyboardKey.textContent = key;
             keyboardKey.addEventListener('click',()=>{
-              this.properties.value += " ";// переделать!
+              /*let i = textarea.selectionStart;
+              let newValue = '';
+              for (let j=0;j<this.properties.value.length; j++) {
+                if (j!=i) newValue += this.properties.value[i]; 
+              }
+              this.properties.value = newValue;*/
               this._triggerEvent('oninput');
             });
             keyboardKeys.append(keyboardKey);
@@ -188,8 +209,14 @@ const KeyboardObj = {
           keyboardKey.classList.add('keyboard__key_dark');
           keyboardKey.textContent = 'Ctrl';
           keyboardKey.addEventListener('click',()=>{
-            this.properties.value += ' ';
-            this._triggerEvent('oninput');
+          });
+          keyboardKeys.append(keyboardKey);
+          break;
+
+          case 'Alt':
+          keyboardKey.classList.add('keyboard__key_dark');
+          keyboardKey.textContent = 'Alt';
+          keyboardKey.addEventListener('click',()=>{
           });
           keyboardKeys.append(keyboardKey);
           break;
@@ -336,16 +363,16 @@ const KeyboardObj = {
                   break;
     
                   case 'ShiftLeft':
-                    case 'ShiftRight':
-                  self.properties.value += ' ';// переделать!
-                  self._triggerEvent('oninput');
+                  case 'ShiftRight':
+                  isShift = true;
                 break;
     
 
                 case 'ControlLeft':
                 case 'ControlRight':
-                  self.properties.value += ' ';// переделать!
-                  self._triggerEvent('oninput');
+                break;
+
+                case 'AltLeft':
                 break;
 
               case 'CapsLock':
@@ -394,6 +421,11 @@ const KeyboardObj = {
             self._triggerEvent('oninput');*/
           }
         }
+        
+         // setLang();
+        //self.createKeysHTML(keyboardLayout, keyLayout);
+        
+        
         /*if (e.code==='CapsLock') {
           self._togleCapsLock(e.getModifierState("CapsLock"));
         }*/
@@ -404,6 +436,9 @@ const KeyboardObj = {
         //console.log('keyup');
         let pressedKey = document.querySelector('.keyboard__key_pressed');
         if (pressedKey) pressedKey.classList.remove("keyboard__key_pressed");
+        //isShift = false;
+        //setLang();
+        //self.createKeysHTML(keyboardLayout, keyLayout);
       }
     }
     keyEventsHandler();
@@ -434,8 +469,11 @@ const KeyboardObj = {
      } 
    },
 
+   _togleShift() {
+     
+   }
+
 
 }
 
 KeyboardObj.init();
-console.log(lettersArray);
