@@ -14,6 +14,7 @@ body {
 
 .textarea {
   width:50%;
+  height:100px;
   margin: 30px auto;
 }
 
@@ -84,8 +85,10 @@ body {
 
 .keyboard__key:active {
   background-color: #27b3ff;
+  transform: scale(0.9);
 }
 
 .keyboard__key_pressed {
   background-color: #27b3ff;
+  transform: scale(0.9);
 }
