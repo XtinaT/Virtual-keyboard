@@ -178,15 +178,18 @@ const KeyboardObj = {
             keyboardKey.classList.add('keyboard__key_dark');
             keyboardKey.textContent = 'Del';
             keyboardKey.addEventListener('click',()=>{
+              textarea.focus();
               let i = textarea.selectionStart;
               if (i<this.properties.value.length) {
                 let newValue = '';
                 for (let j=0;j<this.properties.value.length; j++) {
                 if (j!=i) newValue += this.properties.value[j]; 
               }
+              
               this.properties.value = newValue;
               this._triggerEvent('oninput');
               }  
+              textarea.selectionStart = textarea.selectionEnd = i;
             });
             keyboardKeys.append(keyboardKey);
             insertBreak();
