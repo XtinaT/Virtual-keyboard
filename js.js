@@ -380,15 +380,18 @@ const KeyboardObj = {
                   break;
     
                   case 'Delete':
-                      
-                      if (i<self.properties.value.length) {
-                        let newValue = '';
-                        for (let j=0;j<self.properties.value.length; j++) {
-                        if (j!=i) newValue += self.properties.value[j]; 
-                      }
-                      self.properties.value = newValue;
-                      self._triggerEvent('oninput');
-                      }  
+                    textarea.focus();
+                    let i = textarea.selectionStart;
+                    if (i<self.properties.value.length) {
+                      let newValue = '';
+                      for (let j=0;j<self.properties.value.length; j++) {
+                      if (j!=i) newValue += self.properties.value[j]; 
+                    }
+                    
+                    self.properties.value = newValue;
+                    self._triggerEvent('oninput');
+                    }  
+                    textarea.selectionStart = textarea.selectionEnd = i;  
                     
                   break;
     
