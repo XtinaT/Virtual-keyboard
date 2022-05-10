@@ -123,7 +123,7 @@ const KeyboardObj = {
     textarea.classList.add('textarea');
     keyboard.classList.add('keyboard');
     keyboardKeys.classList.add('keyboard__keys');
-    shortcut.textContent = 'Press Ctrl+Alt or Lang to change language';
+    shortcut.textContent = 'Press Lang to change language';
 
     body.append(wrapper);
     wrapper.append(textarea);
