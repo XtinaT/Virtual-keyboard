@@ -3,10 +3,9 @@ let lang;
 if (localStorage['language']) {
   lang = localStorage['language'];
 } else lang = 'eng';
-console.log(lang);
 let isShift = false;
 let keyboardLayout;
-let keyLayout;
+
 
 let keysArrayEng = [
   "`","1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "Backspace", "Tab",
@@ -47,21 +46,16 @@ function setLang() {
  if (lang == 'eng') {
   if (isShift) {
     keyboardLayout = keysArrayEngShift;
-    keyLayout = 'engShift';
 } else {
     keyboardLayout = keysArrayEng;
-    keyLayout = 'eng';
 }
 } else {
 if (isShift) {
     keyboardLayout = keysArrayRusShift;
-    keyLayout = 'rusShift';
 } else {
     keyboardLayout = keysArrayRus;
-    keyLayout = 'rus';
 }
 } 
-console.log(keyboardLayout, keyLayout);
 }
 setLang();
 
@@ -69,10 +63,8 @@ setLang();
 function changeLang() {
   lang=='eng'?lang='ru':lang="eng";
   localStorage['language'] = `${lang}`;
-  console.log(lang);
   setLang();
-  KeyboardObj.createKeysHTML(keyboardLayout, keyLayout);
-  console.log('new Lang:'+lang);
+  KeyboardObj.createKeysHTML(keyboardLayout);
 }
 
 function insertBreak() {
@@ -116,12 +108,12 @@ const KeyboardObj = {
   },
   
    init() {
-    let body = document.body; //this.elements.body
+    let body = document.body; 
     let wrapper = document.createElement('div');
     let textarea = document.createElement('textarea');
     let shortcut = document.createElement('div');
-    let keyboard = document.createElement('div');// main
-    let keyboardKeys = document.createElement('div');//keysContainer
+    let keyboard = document.createElement('div');
+    let keyboardKeys = document.createElement('div');
 
     wrapper.classList.add('wrapper');
     textarea.classList.add('textarea');
@@ -138,7 +130,7 @@ const KeyboardObj = {
     createLetters();
    },
 
-   createKeysHTML(keyboardLayout, keyLayout) {
+   createKeysHTML(keyboardLayout) {
     
     let keyboardKeys = document.querySelector('.keyboard__keys');
     keyboardKeys.innerHTML = '';
@@ -182,12 +174,6 @@ const KeyboardObj = {
             keyboardKey.classList.add('keyboard__key_dark');
             keyboardKey.textContent = key;
             keyboardKey.addEventListener('click',()=>{
-              /*let i = textarea.selectionStart;
-              let newValue = '';
-              for (let j=0;j<this.properties.value.length; j++) {
-                if (j!=i) newValue += this.properties.value[i]; 
-              }
-              this.properties.value = newValue;*/
               this._triggerEvent('oninput');
             });
             keyboardKeys.append(keyboardKey);
@@ -332,7 +318,7 @@ const KeyboardObj = {
    _createKeys() {
      let self = this;
       
-    this. createKeysHTML(keyboardLayout, keyLayout);
+    this. createKeysHTML(keyboardLayout);
 
     function keyEventsHandler() {
       document.addEventListener('keydown',keyDown, false);
@@ -342,7 +328,6 @@ const KeyboardObj = {
         e = e||window.event;
         e.preventDefault();
       for (let elem of self.elements.keyContainer) {
-          //console.log(`e.key:${e.key} inner:${elem.innerHTML} text:${elem.textContent}`);
         if (e.key.toLowerCase()===elem.innerHTML.toLowerCase()||e.key.toLowerCase()===elem.textContent.toLowerCase()||(e.code==='Space'&&elem.textContent==='Space')||(e.code==='Delete'&&elem.textContent==='Del')||(e.code==='CapsLock'&&elem.textContent==='Caps')||(e.code==='ControlLeft'&&elem.textContent==='Ctrl')||(e.code==='ControlRight'&&elem.textContent==='Ctrl')||(e.code==='ArrowUp'&&elem.dataset.name==='ArrowUp'||(e.code==='ArrowDown'&&elem.dataset.name==='ArrowDown'))||(e.code==='ArrowRight'&&elem.dataset.name==='ArrowRight')||(e.code==='ArrowLeft'&&elem.dataset.name==='ArrowLeft')) {
             elem.classList.add("keyboard__key_pressed");
             let textarea = document.querySelector('.textarea');
@@ -417,28 +402,14 @@ const KeyboardObj = {
                       break;     
             }
 
-            /*self.properties.value += self.properties.capsLock? e.key.toUpperCase():e.key.toLowerCase();
-            self._triggerEvent('oninput');*/
           }
         }
-        
-         // setLang();
-        //self.createKeysHTML(keyboardLayout, keyLayout);
-        
-        
-        /*if (e.code==='CapsLock') {
-          self._togleCapsLock(e.getModifierState("CapsLock"));
-        }*/
       }
       function keyUp(e) {
         e = e||window.event;
         e.preventDefault();
-        //console.log('keyup');
         let pressedKey = document.querySelector('.keyboard__key_pressed');
         if (pressedKey) pressedKey.classList.remove("keyboard__key_pressed");
-        //isShift = false;
-        //setLang();
-        //self.createKeysHTML(keyboardLayout, keyLayout);
       }
     }
     keyEventsHandler();
@@ -446,10 +417,9 @@ const KeyboardObj = {
 
    },
 
-   _triggerEvent(handlerName) {
+   _triggerEvent() {
      let textarea = document.querySelector('.textarea');
      textarea.innerHTML = this.properties.value;
-     console.log(textarea.innerHTML);
    },
 
    _togleCapsLock(isCaps) {
