@@ -121,6 +121,10 @@ const KeyboardObj = {
     let shortcut = document.createElement("div");
     let keyboard = document.createElement("div");
     let keyboardKeys = document.createElement("div");
+    let footer = document.createElement("div");
+    footer.innerHTML = '<a href="https://github.com/XtinaT/Virtual-keyboard/tree/develop">Привет! Тут ссылка на PR =) </a>'
+    
+    
 
     wrapper.classList.add("wrapper");
     textarea.classList.add("textarea");
@@ -129,6 +133,7 @@ const KeyboardObj = {
     shortcut.textContent = "Press Lang to change language";
 
     body.append(wrapper);
+    body.append(footer);
     wrapper.append(textarea);
     wrapper.append(shortcut);
     wrapper.append(keyboard);
@@ -205,18 +210,17 @@ const KeyboardObj = {
           keyboardKey.classList.add("keyboard__key_bigger");
           keyboardKey.classList.add("keyboard__key_dark");
           keyboardKey.textContent = key;
+          keyboardKey.setAttribute("data-name", `${key}`);
           keyboardKey.addEventListener("mousedown", () => {
             this._togleCapsLock(true);
             keyboardKey.classList.toggle(
-              "keyboard__key_active",
-              this.properties.capsLock
+              "keyboard__key_active"
             );
           });
           keyboardKey.addEventListener("mouseup", () => {
             this._togleCapsLock(false);
             keyboardKey.classList.toggle(
-              "keyboard__key_active",
-              this.properties.capsLock
+              "keyboard__key_active"
             );
           });
           keyboardKeys.append(keyboardKey);
@@ -396,6 +400,7 @@ const KeyboardObj = {
             (e.code === "ArrowRight" && elem.dataset.name === "ArrowRight") ||
             (e.code === "ArrowLeft" && elem.dataset.name === "ArrowLeft")
           ) {
+            console.log(elem);
             elem.classList.add("keyboard__key_pressed");
             let textarea = document.querySelector(".textarea");
             let i;
@@ -432,10 +437,10 @@ const KeyboardObj = {
               case "ShiftLeft":
               case "ShiftRight":
                 isShift = true;
+                let shift = document.querySelector('[data-name=Shift]');
                 setLang();
                 document.removeEventListener("keydown", keyDown, false);
                 document.removeEventListener("keyup", keyUp, false);
-
                 self._createKeys();
                 self._togleCapsLock(true);
                 break;
