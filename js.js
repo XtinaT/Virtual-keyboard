@@ -122,9 +122,8 @@ const KeyboardObj = {
     let keyboard = document.createElement("div");
     let keyboardKeys = document.createElement("div");
     let footer = document.createElement("div");
-    footer.innerHTML = '<a href="https://github.com/XtinaT/Virtual-keyboard/tree/develop">Привет! Тут ссылка на PR =) </a>'
-    
-    
+    footer.innerHTML =
+      '<a href="https://github.com/XtinaT/Virtual-keyboard/tree/develop">Привет! Тут ссылка на PR =) </a>';
 
     wrapper.classList.add("wrapper");
     textarea.classList.add("textarea");
@@ -156,11 +155,15 @@ const KeyboardObj = {
           keyboardKey.classList.add("keyboard__key_dark");
           keyboardKey.textContent = key;
           keyboardKey.addEventListener("click", () => {
-            this.properties.value = this.properties.value.substring(
-              0,
-              this.properties.value.length - 1
-            );
+            textarea.focus();
+            let i = textarea.selectionStart;
+            let newValue = "";
+            for (let j = 0; j < this.properties.value.length; j++) {
+              if (j != i - 1) newValue += this.properties.value[j];
+            }
+            this.properties.value = newValue;
             this._triggerEvent("oninput");
+            textarea.selectionStart = textarea.selectionEnd = i - 1;
           });
           keyboardKeys.append(keyboardKey);
           insertBreak();
@@ -170,8 +173,25 @@ const KeyboardObj = {
           keyboardKey.classList.add("keyboard__key_dark");
           keyboardKey.textContent = key;
           keyboardKey.addEventListener("click", () => {
-            this.properties.value += "    ";
+            textarea.focus();
+            if (textarea.selectionStart == 0) {
+              textarea.selectionStart = textarea.selectionEnd =
+                this.properties.value.length;
+            }
+            let i = textarea.selectionStart;
+            if (i == this.properties.value.length) {
+              this.properties.value += "    ";
+            } else {
+              let newValue = "";
+              for (let j = 0; j < this.properties.value.length; j++) {
+                if (j == i) newValue += "    ";
+                newValue += this.properties.value[j];
+              }
+              this.properties.value = newValue;
+            }
+
             this._triggerEvent("oninput");
+            textarea.selectionStart = textarea.selectionEnd = i + 4;
           });
           keyboardKeys.append(keyboardKey);
           break;
@@ -213,15 +233,11 @@ const KeyboardObj = {
           keyboardKey.setAttribute("data-name", `${key}`);
           keyboardKey.addEventListener("mousedown", () => {
             this._togleCapsLock(true);
-            keyboardKey.classList.toggle(
-              "keyboard__key_active"
-            );
+            keyboardKey.classList.toggle("keyboard__key_active");
           });
           keyboardKey.addEventListener("mouseup", () => {
             this._togleCapsLock(false);
-            keyboardKey.classList.toggle(
-              "keyboard__key_active"
-            );
+            keyboardKey.classList.toggle("keyboard__key_active");
           });
           keyboardKeys.append(keyboardKey);
           break;
@@ -261,8 +277,25 @@ const KeyboardObj = {
           keyboardKey.classList.add("keyboard__key_dark");
           keyboardKey.textContent = key;
           keyboardKey.addEventListener("click", () => {
-            this.properties.value += "\n";
+            textarea.focus();
+            if (textarea.selectionStart == 0) {
+              textarea.selectionStart = textarea.selectionEnd =
+                this.properties.value.length;
+            }
+            let i = textarea.selectionStart;
+            if (i == this.properties.value.length) {
+              this.properties.value += "\n";
+            } else {
+              let newValue = "";
+              for (let j = 0; j < this.properties.value.length; j++) {
+                if (j == i) newValue += "\n";
+                newValue += this.properties.value[j];
+              }
+              this.properties.value = newValue;
+            }
+
             this._triggerEvent("oninput");
+            textarea.selectionStart = textarea.selectionEnd = i + 1;
           });
           keyboardKeys.append(keyboardKey);
           insertBreak();
@@ -273,8 +306,25 @@ const KeyboardObj = {
           keyboardKey.classList.add("keyboard__key_dark");
           keyboardKey.textContent = key;
           keyboardKey.addEventListener("click", () => {
-            this.properties.value += " ";
+            textarea.focus();
+            if (textarea.selectionStart == 0) {
+              textarea.selectionStart = textarea.selectionEnd =
+                this.properties.value.length;
+            }
+            let i = textarea.selectionStart;
+            if (i == this.properties.value.length) {
+              this.properties.value += " ";
+            } else {
+              let newValue = "";
+              for (let j = 0; j < this.properties.value.length; j++) {
+                if (j == i) newValue += " ";
+                newValue += this.properties.value[j];
+              }
+              this.properties.value = newValue;
+            }
+
             this._triggerEvent("oninput");
+            textarea.selectionStart = textarea.selectionEnd = i + 1;
           });
           keyboardKeys.append(keyboardKey);
           break;
@@ -284,8 +334,14 @@ const KeyboardObj = {
           keyboardKey.setAttribute("data-name", key);
           keyboardKey.innerHTML = "&#9650;";
           keyboardKey.addEventListener("click", () => {
-            this.properties.value += "&#9650;";
-            this._triggerEvent("oninput");
+            textarea.focus();
+            if (textarea.selectionStart == 0) {
+              textarea.selectionStart = textarea.selectionEnd =
+                this.properties.value.length;
+            } else {
+              textarea.selectionStart--;
+              textarea.selectionEnd = textarea.selectionStart;
+            }
           });
           keyboardKeys.append(keyboardKey);
           break;
@@ -295,8 +351,25 @@ const KeyboardObj = {
           keyboardKey.classList.add("keyboard__key_bigger");
           keyboardKey.innerHTML = "&#128522;";
           keyboardKey.addEventListener("click", () => {
-            this.properties.value += "&#128522;";
+            textarea.focus();
+            if (textarea.selectionStart == 0) {
+              textarea.selectionStart = textarea.selectionEnd =
+                this.properties.value.length;
+            }
+            let i = textarea.selectionStart;
+            if (i == this.properties.value.length) {
+              this.properties.value += "&#128522;";
+            } else {
+              let newValue = "";
+              for (let j = 0; j < this.properties.value.length; j++) {
+                if (j == i) newValue += "&#128522;";
+                newValue += this.properties.value[j];
+              }
+              this.properties.value = newValue;
+            }
+
             this._triggerEvent("oninput");
+            textarea.selectionStart = textarea.selectionEnd = i + 1;
           });
           keyboardKeys.append(keyboardKey);
           insertBreak();
@@ -307,8 +380,14 @@ const KeyboardObj = {
           keyboardKey.setAttribute("data-name", key);
           keyboardKey.innerHTML = "&#9660;";
           keyboardKey.addEventListener("click", () => {
-            this.properties.value += "&#9660;";
-            this._triggerEvent("oninput");
+            textarea.focus();
+            if (textarea.selectionStart == 0) {
+              textarea.selectionStart = textarea.selectionEnd =
+                this.properties.value.length;
+            } else {
+              textarea.selectionStart++;
+              textarea.selectionEnd = textarea.selectionStart;
+            }
           });
           keyboardKeys.append(keyboardKey);
           break;
@@ -318,8 +397,14 @@ const KeyboardObj = {
           keyboardKey.setAttribute("data-name", key);
           keyboardKey.innerHTML = "&#9664;";
           keyboardKey.addEventListener("click", () => {
-            this.properties.value += "&#9664;";
-            this._triggerEvent("oninput");
+            textarea.focus();
+            if (textarea.selectionStart == 0) {
+              textarea.selectionStart = textarea.selectionEnd =
+                this.properties.value.length;
+            } else {
+              textarea.selectionStart--;
+              textarea.selectionEnd = textarea.selectionStart;
+            }
           });
           keyboardKeys.append(keyboardKey);
           break;
@@ -329,8 +414,14 @@ const KeyboardObj = {
           keyboardKey.setAttribute("data-name", key);
           keyboardKey.innerHTML = "&#9654;";
           keyboardKey.addEventListener("click", () => {
-            this.properties.value += "&#9654;";
-            this._triggerEvent("oninput");
+            textarea.focus();
+            if (textarea.selectionStart == 0) {
+              textarea.selectionStart = textarea.selectionEnd =
+                this.properties.value.length;
+            } else {
+              textarea.selectionStart++;
+              textarea.selectionEnd = textarea.selectionStart;
+            }
           });
           keyboardKeys.append(keyboardKey);
           break;
@@ -339,10 +430,31 @@ const KeyboardObj = {
           keyboardKey.textContent = key;
           keyboardKey.setAttribute("data-name", key);
           keyboardKey.addEventListener("click", () => {
-            this.properties.value += this.properties.capsLock
-              ? key.toUpperCase()
-              : key.toLowerCase();
+            textarea.focus();
+            if (textarea.selectionStart == 0) {
+              textarea.selectionStart = textarea.selectionEnd =
+                this.properties.value.length;
+            }
+            let i = textarea.selectionStart;
+            if (i == this.properties.value.length) {
+              this.properties.value += this.properties.capsLock
+                ? key.toUpperCase()
+                : key.toLowerCase();
+            } else {
+              let newValue = "";
+              for (let j = 0; j < this.properties.value.length; j++) {
+                if (j == i) {
+                  newValue += this.properties.capsLock
+                    ? key.toUpperCase()
+                    : key.toLowerCase();
+                }
+                newValue += this.properties.value[j];
+              }
+              this.properties.value = newValue;
+            }
+
             this._triggerEvent("oninput");
+            textarea.selectionStart = textarea.selectionEnd = i + 1;
           });
           keyboardKeys.append(keyboardKey);
           if (letters.includes(key)) {
@@ -367,6 +479,9 @@ const KeyboardObj = {
         e.preventDefault();
         let keyValue;
         let keyToComp = e.key;
+        if (e.code == "Space") {
+          keyToComp = e.code;
+        }
         let arrayForComp;
         if (self.properties.capsLock) {
           arrayForComp = keysArrayEngShift;
@@ -400,29 +515,51 @@ const KeyboardObj = {
             (e.code === "ArrowRight" && elem.dataset.name === "ArrowRight") ||
             (e.code === "ArrowLeft" && elem.dataset.name === "ArrowLeft")
           ) {
-            console.log(elem);
             elem.classList.add("keyboard__key_pressed");
             let textarea = document.querySelector(".textarea");
             let i;
+            let newValue;
             switch (e.code) {
               case "Backspace":
-                self.properties.value = self.properties.value.substring(
-                  0,
-                  self.properties.value.length - 1
-                );
+                textarea.focus();
+                i = textarea.selectionStart;
+                newValue = "";
+                for (let j = 0; j < self.properties.value.length; j++) {
+                  if (j != i - 1) newValue += self.properties.value[j];
+                }
+
+                self.properties.value = newValue;
                 self._triggerEvent("oninput");
+                textarea.selectionStart = textarea.selectionEnd = i - 1;
                 break;
 
               case "Tab":
-                self.properties.value += "    ";
+                textarea.focus();
+                if (textarea.selectionStart == 0) {
+                  textarea.selectionStart = textarea.selectionEnd =
+                    self.properties.value.length;
+                }
+                i = textarea.selectionStart;
+                if (i == self.properties.value.length) {
+                  self.properties.value += "    ";
+                } else {
+                  newValue = "";
+                  for (let j = 0; j < self.properties.value.length; j++) {
+                    if (j == i) newValue += "    ";
+                    newValue += self.properties.value[j];
+                  }
+                  self.properties.value = newValue;
+                }
+
                 self._triggerEvent("oninput");
+                textarea.selectionStart = textarea.selectionEnd = i + 4;
                 break;
 
               case "Delete":
                 textarea.focus();
                 i = textarea.selectionStart;
                 if (i < self.properties.value.length) {
-                  let newValue = "";
+                  newValue = "";
                   for (let j = 0; j < self.properties.value.length; j++) {
                     if (j != i) newValue += self.properties.value[j];
                   }
@@ -437,7 +574,6 @@ const KeyboardObj = {
               case "ShiftLeft":
               case "ShiftRight":
                 isShift = true;
-                let shift = document.querySelector('[data-name=Shift]');
                 setLang();
                 document.removeEventListener("keydown", keyDown, false);
                 document.removeEventListener("keyup", keyUp, false);
@@ -457,13 +593,47 @@ const KeyboardObj = {
                 break;
 
               case "Enter":
-                self.properties.value += "\n";
+                textarea.focus();
+                if (textarea.selectionStart == 0) {
+                  textarea.selectionStart = textarea.selectionEnd =
+                    self.properties.value.length;
+                }
+                i = textarea.selectionStart;
+                if (i == self.properties.value.length) {
+                  self.properties.value += "\n";
+                } else {
+                  newValue = "";
+                  for (let j = 0; j < self.properties.value.length; j++) {
+                    if (j == i) newValue += "\n";
+                    newValue += self.properties.value[j];
+                  }
+                  self.properties.value = newValue;
+                }
+
                 self._triggerEvent("oninput");
+                textarea.selectionStart = textarea.selectionEnd = i + 1;
                 break;
 
               case "Space":
-                self.properties.value += " ";
+                textarea.focus();
+                if (textarea.selectionStart == 0) {
+                  textarea.selectionStart = textarea.selectionEnd =
+                    self.properties.value.length;
+                }
+                i = textarea.selectionStart;
+                if (i == self.properties.value.length) {
+                  self.properties.value += " ";
+                } else {
+                  newValue = "";
+                  for (let j = 0; j < self.properties.value.length; j++) {
+                    if (j == i) newValue += " ";
+                    newValue += self.properties.value[j];
+                  }
+                  self.properties.value = newValue;
+                }
+
                 self._triggerEvent("oninput");
+                textarea.selectionStart = textarea.selectionEnd = i + 1;
                 break;
 
               case "ArrowUp":
@@ -491,10 +661,31 @@ const KeyboardObj = {
                 break;
 
               default:
-                self.properties.value += self.properties.capsLock
-                  ? keyValue.toUpperCase()
-                  : keyValue.toLowerCase();
+                textarea.focus();
+                if (textarea.selectionStart == 0) {
+                  textarea.selectionStart = textarea.selectionEnd =
+                    self.properties.value.length;
+                }
+                i = textarea.selectionStart;
+                if (i == self.properties.value.length) {
+                  self.properties.value += self.properties.capsLock
+                    ? keyValue.toUpperCase()
+                    : keyValue.toLowerCase();
+                } else {
+                  newValue = "";
+                  for (let j = 0; j < self.properties.value.length; j++) {
+                    if (j == i) {
+                      newValue += self.properties.capsLock
+                        ? keyValue.toUpperCase()
+                        : keyValue.toLowerCase();
+                    }
+                    newValue += self.properties.value[j];
+                  }
+                  self.properties.value = newValue;
+                }
+
                 self._triggerEvent("oninput");
+                textarea.selectionStart = textarea.selectionEnd = i + 1;
                 break;
             }
           }
