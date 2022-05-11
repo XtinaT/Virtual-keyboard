@@ -876,7 +876,7 @@ const KeyboardObj = {
                 break;
 
               case 'AltLeft':
-                if (isShift) changeLang();;
+                if (isShift) changeLang();
                 break;
 
               case 'CapsLock':
