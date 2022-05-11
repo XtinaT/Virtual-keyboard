@@ -367,6 +367,9 @@ const KeyboardObj = {
         e.preventDefault();
         let keyValue;
         let keyToComp = e.key;
+        if (e.code == 'Space') {
+          keyToComp = e.code;
+        }
         let arrayForComp;
         if (self.properties.capsLock) {
           arrayForComp = keysArrayEngShift;
@@ -400,7 +403,6 @@ const KeyboardObj = {
             (e.code === "ArrowRight" && elem.dataset.name === "ArrowRight") ||
             (e.code === "ArrowLeft" && elem.dataset.name === "ArrowLeft")
           ) {
-            console.log(elem);
             elem.classList.add("keyboard__key_pressed");
             let textarea = document.querySelector(".textarea");
             let i;
