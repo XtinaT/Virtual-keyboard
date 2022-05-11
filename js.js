@@ -521,11 +521,9 @@ const KeyboardObj = {
           keyboardKey.setAttribute('data-name', `${key}`);
           keyboardKey.addEventListener('mousedown', () => {
             this.togleCapsLock(true);
-            keyboardKey.classList.toggle('keyboard__key_active');
           });
           keyboardKey.addEventListener('mouseup', () => {
             this.togleCapsLock(false);
-            keyboardKey.classList.toggle('keyboard__key_active');
           });
           keyboardKeys.append(keyboardKey);
           break;
@@ -878,6 +876,7 @@ const KeyboardObj = {
                 break;
 
               case 'AltLeft':
+                if (isShift) changeLang();;
                 break;
 
               case 'CapsLock':
